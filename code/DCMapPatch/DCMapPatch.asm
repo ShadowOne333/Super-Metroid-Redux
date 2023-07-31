@@ -830,8 +830,8 @@ org $9AB200	; $9AB200-9AC5FF, 0x0D3200-0x0D45FF
 ;----------------------------------------
 ;;; Pause Screen graphics ;;;
 org $B68000	; 0x1B0000-0x1B6FFF
-	incbin B6tiles.bin		; Graphics $B68000-B6DFFF
-	incbin B6tilemap.bin	; Tilemaps $B6E000-B6EFFF
+	;incbin B6tiles.bin		; Graphics $B68000-B6DFFF
+	;incbin B6tilemap.bin	; Tilemaps $B6E000-B6EFFF
 ;----------------------------------------
 ;;; Free space bank ;;;
 org $B8E000	; 0x1C6000-0x176FFF

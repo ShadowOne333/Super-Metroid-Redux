@@ -14,10 +14,10 @@ org $90B005
                        TAX                     
                        JSR.W ($B033,X)
                        JSR.W $B16A       
-                       BCC Return              
-                       JSL.L $ADB7       
+                       BCC return1              
+                       JSL.L $90ADB7       
                                                
-               Return: RTS                     
+              return1: RTS                     
 
 org $90B2FE
                        BNE CODE_90B310  

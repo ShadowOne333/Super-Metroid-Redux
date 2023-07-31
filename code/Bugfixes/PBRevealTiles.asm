@@ -12,7 +12,9 @@ jump1:
 	BEQ +
 	CMP #$0200
 	BEQ ++
+org $84FFB7
 jump2:
+	ASL A
 	CMP #$0500
 	BEQ +++
 	CMP #$0300

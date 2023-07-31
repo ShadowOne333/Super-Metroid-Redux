@@ -498,7 +498,7 @@ org $92DF74
 
 org $91E8FE
 	LDX $0A1C
-	LDA FallTransitions,X
+	LDA.l FallTransitions,X
 	AND #$00FF
 	STA $0A28
 	LDA #$0005
@@ -540,7 +540,8 @@ DW $981A,$981A,LAimUpFrame2,LAimUpFrame3,LAimUpFrame2,$981A,$981A,LAimUpFrame2,L
 ;FE01 E9 0528
 ;F9C3 F1 0028
 
-org $92EE10 ;; moved to freespace, default value was $92EDF4
+;Originally org $92EE10
+org $92EDF4 ;; moved to freespace, default value was $92EDF4
 RAimUpFrame2:
 DB $05,$00
 DB $F9,$01,$F7,$02,$28
@@ -610,7 +611,8 @@ DB $FA,$01,$E7,$05,$68
 org $9183DF
 	JSR ToggleWalk
 
-org $919F90 ; moved to freespace, default value was $91FFEE
+;Originally 919F90
+org $91FFEE ; moved to freespace, default value was $91FFEE
 ToggleWalk:
 	LDA $0A86
 	EOR #$0020

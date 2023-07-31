@@ -30,7 +30,7 @@ org $94B1F0
                        LDA.W #$FFFE     
                        STA.B $12        
                        STZ.B $14        
-                       JSL.L $9763
+                       JSL.L $949763
                        LDA.W #$0001     
                        STA.W $0A6E      
                        STA.W $0B3C      

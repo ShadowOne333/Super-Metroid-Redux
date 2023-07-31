@@ -258,7 +258,7 @@ $91:D755: CMP #$002C - no clue
 $91:D9FD: BRA $EB - no clue
 $91:DA8C: some code - Vanilla Bugfixes, no changes
 $91:E14A: JSL $84FD15, skips STZ and STZ - Control Freak PB UI, no changes
-$91:E8FE: some code, redoes Set Samus fall pose - Control Freak PB UI, no changes
+$91:E8FE: some code, redoes Set Samus fall pose - Control Freak PB, no changes
 $91:EFFA: remove STZ and STZ - no clue
 $91:F66F: remove JSL - no clue
 $91:FC99: JSL $90F670, RTS - Control Freak Project Base Spinjump Restart, address changed

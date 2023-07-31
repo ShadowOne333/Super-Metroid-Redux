@@ -109,6 +109,18 @@ org $84BABF
 					   dw $0001,$A6EF
 					   dw $0001,$A6FB
 
+org $84E2CA : db $00
+
+org $84E2FF : db $00
+
+org $84E727 : db $00
+
+org $84E769 : db $00
+
+org $84EC31 : db $00
+
+org $84EC79 : db $00
+
 org $84F030
                        STA.W $09D4
                        STA.W $09D6
@@ -118,9 +130,177 @@ org $858000 : padword $000E : pad $858080
 
 org $858426 : padword $000E : pad $858436
 
+org $888788 : LDA $0084
 
+org $888799 : LDA #$001A
 
+org $8887F7 : SBC #$0002
 
+org $888819 : ADC #$0002
 
+org $88884F : ADC #$0002
 
+org $88887A : SBC #$0002
+
+org $8FE9A0 
+					   LDA #$0001
+					   JSL $8081FA
+					   RTS
+
+org $8FE9A8 
+					   STZ $0F78
+					   STZ $0FB8
+					   RTS
+
+org $90854D : AND #$000F
+
+org $908592 : ADC #$0200
+
+org $909005 : AND #$0000
+
+org $909774 : AND #$000F
+
+org $909E93 : dw $0004
+
+org $909E97 : dw $0100 : dw $0800 : dw $0100 : dw $0800 : dw $000A
+
+org $909EBD : dw $0003
+
+org $909EC9 : dw $0004
+
+org $909ED3 : dw $0002
+
+org $909EDF : dw $0002
+
+org $909EF7 : dw $0001,$0002
+
+org $909F27 : dw $6000,$0004
+
+org $90A031 : dw $0002
+
+org $90A09B : dw $1000,$0001,$C000,$0001
+
+org $90A0A7 : dw $C700
+
+org $90A0B3 : dw $FF00
+
+org $90A0BF : dw $0600
+
+org $90A0EF : dw $F000
+
+org $90A15B : dw $0800
+
+org $90A167 : dw $F000
+
+org $90A173 : dw $F000
+
+org $90A445 : NOP #3
+
+org $90B85F : CMP #$002C
+
+org $90C254 : db $0A,$0A,$0A,$0A,$0B,$0B,$0B,$0B,$0C,$0C,$0C,$0C
+
+org $90C27B : db $08,$0A
+
+org $90C283 : db $0A,$0A,$0A,$0A,$0B,$0B,$0B,$0B,$0C,$0C,$0C,$0C
+
+org $90C2D1 : dw $0400,$01AB,$0400,$01AB
+              dw $0400,$01AB,$0400,$01AB
+              dw $0400,$02AB,$0400,$02AB
+              dw $0400,$02AB,$0400,$02AB
+              dw $0600,$04AB,$0600,$04AB
+              dw $0600,$04AB,$0600,$04AB
+
+org $90CF33 : LDA #$0060
+
+org $90CF70 : LDA #$0001
+
+org $90D036 : LDA #$003A
+
+org $90D0CE : LDA $09C2
+
+org $90D0FD : LDA $09C2
+
+org $90D129 : LDA $09C2
+
+org $90D34C : JSR.W $FA7A ;Ending Shinespark
+
+org $90FA7A : LDA.W #$0001 : STA.W $05D5
+			  LDA.W $0AAF : RTS
+
+org $90D396 : BRA $27
+
+org $90D8CF : dw $0011,$0011,$0011,$0011,$0011 
+			  dw $8200,$8480,$0000,$01F0,$0480
+			  dw $0001,$0002,$0000,$0001,$0002 
+
+org $90E2E9 : LDA #$0050
+org $90E2F1 : LDA #$004F
+
+org $90F640
+                       CMP.W #$0003 : BEQ CODE_90F658
+                       CMP.W #$0002 : BEQ CODE_90F658
+                       CMP.W #$0006 : BEQ CODE_90F658
+                       CMP.W #$0014 : BEQ CODE_90F658
+                       JSL.L $9098BC
+                                        
+          CODE_90F658: RTL
+
+org $90F670
+          CODE_90F670: LDA.W $0A23      
+                       AND.W #$00FF     
+                       CMP.W #$0003     
+                       BEQ CODE_90F68E  
+                       CMP.W #$0002     
+                       BEQ CODE_90F68E  
+                       CMP.W #$0006     
+                       BEQ CODE_90F68E  
+                       CMP.W #$0014     
+                       BEQ CODE_90F68E  
+                       JSL.L $9098BC
+                                        
+          CODE_90F68E: RTL              
+
+org $90F780 : STA.B $12 : STZ.B $14 : JSR.W $9440 : RTL
+
+org $91D755 : CMP #$002C
+
+org $91D9FD : BRA $EB
+
+org $91EFFA : NOP #6
+
+org $91F66F : NOP #4
+
+org $948E92 : NOP #2
+
+org $9BCB97 : LDA #$0019
+
+org $9BCB9F : LDA #$001A
+
+org $A09929 : LDA #$0008
+
+org $A0A57B : LDA #$0008
+
+org $A2A80F : CMP #$02EA
+
+org $A39581
+                       STZ.W $0799    
+                       LDA.W #$0008   
+                       CMP.W $0998    
+                       BNE CODE_A39596
+                       LDA.W $0F7E,X  
+                       CLC            
+                       ADC.W #$0001   
+                       STA.W $0F7E,X  
+                                      
+          CODE_A39596: INC.W $0F7E,X  
+                       NOP            
+
+org $A395AF : SBC #$0002
+
+org $A395D1 : ADC #$0002
+
+org $A395EB : SBC #$0002
+
+org $A6AAD7 : BRA $10
 

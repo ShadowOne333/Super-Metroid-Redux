@@ -207,7 +207,8 @@ org $A2A9B5		;//part of samus arrival routine
 
 ;//FREE SPACE
 ;------------
-org $A2FFE0		;//[117FE0] ($16 bytes) End of bank
+;originally org $A2FFE0
+org $A2FF90		;//[117FE0] ($16 bytes) End of bank
 SaveMode:
 	LDA $7E09EA
 	;CMP #$0000

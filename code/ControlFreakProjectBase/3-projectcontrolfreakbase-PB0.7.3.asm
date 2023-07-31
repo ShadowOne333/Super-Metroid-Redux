@@ -16,7 +16,8 @@ org $91A740
 org $90F63A	;clearing some pb spinjump leftovers
 	db $FF,$FF,$FF,$FF,$FF,$FF
 
-org $90F870	;$1E bytes for spinjump restart ; moved to freespace, default value was $90F670
+;Originally org $90F870
+org $90F670	;$1E bytes for spinjump restart ; moved to freespace, default value was $90F670
 	LDA $0A23
 	AND #$00FF
 	CMP #$0003
@@ -32,7 +33,7 @@ ENDAIR:
 	RTL
 
 org $91FC99	;no idea, points to spinjump restart
-	JSL $90F870 ; moved to freespace, default value was $90F670
+	JSL $90F670 ; moved to freespace, default value was $90F670
 	RTS
 ;-------------------------------------------
 
