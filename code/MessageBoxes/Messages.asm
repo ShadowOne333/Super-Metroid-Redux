@@ -132,11 +132,15 @@ org $85877F	; 0x02877F
 	padword $000E : pad $85940F
 	dw "TO SAVE?"
 	padword $000E : pad $85948F
-	dw "=>" : %prompt("YES", $1400)
+	; Commented out until Asar is updated to properly recognize TBL entries through macros instead of just detecting ASCII chars
+	; dw "=>" : %prompt("YES", $1400)	; D8 3C C4 3C D2 3C
+	dw "=>",'Y'|$1400,'E'|$1400,'S'|$1400
 	padword $000E : pad $8594A5
-	%prompt("NO", $0400)
+	;%prompt("NO", $0400)		; CD 2C CE 2C
+	dw 'N'|$0400,'O'|$0400
 	padword $000E : pad $8594CF
-	%prompt("SAVE COMPLETED.", $1400)
+	;%prompt("SAVE COMPLETED.", $1400)
+	dw 'S'|$1400,'A'|$1400,'V'|$1400,'E'|$1400," ",'C'|$1400,'O'|$1400,'M'|$1400,'P'|$1400,'L'|$1400,'E'|$1400,'T'|$1400,'E'|$1400,'D'|$1400,'.'|$1400
 	padword $000E : pad $859511
 	dw "RESERVE TANK"
 	padword $000E : pad $859551
@@ -144,21 +148,26 @@ org $85877F	; 0x02877F
 	padword $000E : pad $85957F
 	dw $0000	
 	padword $000E : pad $859591
-	dw "=>" : %prompt("YES", $1400)	; Unused
+	;dw "=>" : %prompt("YES", $1400)	; Unused
+	dw "=>",'Y'|$1400,'E'|$1400,'S'|$1400
 	padword $000E : pad $8595A7
-	%prompt("NO", $0400)
+	;%prompt("NO", $0400)
+	dw 'N'|$0400,'O'|$0400
 	padword $000E : pad $8595D1
-	dw "=>" : %prompt("YES", $1400)
+	;dw "=>" : %prompt("YES", $1400)
+	dw "=>",'Y'|$1400,'E'|$1400,'S'|$1400
 	padword $000E : pad $8595E7
-	%prompt("NO", $0400)
+	;%prompt("NO", $0400)
+	dw 'N'|$0400,'O'|$0400
 	padword $000E : pad $859615
-	%prompt("YES", $0400)
+	;%prompt("YES", $0400)
+	dw 'Y'|$0400,'E'|$0400,'S'|$0400
 	padword $000E : pad $859623
-	dw "=>" : %prompt("NO", $1400)
+	;dw "=>" : %prompt("NO", $1400)
+	dw "=>",'N'|$1400,'O'|$1400
 	padword $000E : pad $859641
 
 warnpc $859643	; 0x029643
-
 
 
 
