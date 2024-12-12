@@ -1,0 +1,3 @@
+TO-DO:
+	- Disassemble Witty's patches into proper ASM format.
+Probably the most intensive one to disassemble will be the Red Gate patch, the rest are either some couple of hex changes and/or graphics data that can be imported directly.

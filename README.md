@@ -112,8 +112,11 @@ https://github.com/ShadowOne333/Super-Metroid-Redux
 15. **Original Underwater Walljump.ips**: Restores the original physics for walljumping while underwater to avoid sequence breaking Maridia. More information about this patch on [WittyPhoenix's repository here](https://github.com/wittyphoenix/WittyMetroidReduxPatches).
 16. **No Boss Tiles on Map.ips**: Removes the Boss tiles from the Map to avoid spoiling any upcoming bosses while checking the map. More information about this patch on [WittyPhoenix's repository here](https://github.com/wittyphoenix/WittyMetroidReduxPatches).
 17. **No Colored Doors on Map.ips**: Remove the colour-coded doors from the Map, like in the original Super Metroid. More information about this patch on [WittyPhoenix's repository here](https://github.com/wittyphoenix/WittyMetroidReduxPatches).
-18. **New Control Scheme.ips** - ??? (I don't remember what this patch did nor its author, it was given to me but I forgot the actual changes it provides).
-19. **Super Metroid Controls.ips** - ??? (Originally known as "Make Controls More Like Super Metroid", I don't remember what this patch did nor its author, it was given to me but I forgot the actual changes it provides).
+18. **Red Gate.ips** - Replaces the Green Gate from Maridia to Brinstar with a Red Gate that will stay open once activated. More information about this patch on [WittyPhoenix's repository here](https://github.com/wittyphoenix/WittyMetroidReduxPatches).
+19. **Vanilla Button Mapping.ips** - Sets the face buttons back to the original default mapping. Also sets auto-run to off by default. This layout helps towards making the Run button more easier access. More information about this patch on [WittyPhoenix's repository here](https://github.com/wittyphoenix/WittyMetroidReduxPatches).
+19. **New Control Scheme.ips** - ??? (I don't remember what this patch did nor its author, it was given to me but I forgot the actual changes it provides).
+20. **Super Metroid Controls.ips** - ??? (Originally known as "Make Controls More Like Super Metroid", I don't remember what this patch did nor its author, it was given to me but I forgot the actual changes it provides).
+
 
 -------------------
 
@@ -203,7 +206,7 @@ If you want to apply any of the optional patches, you can use each Optional patc
 * **HAM** - Suits Pickup fixes
 * **Crashtour99** - Dual Suit hack
 * **Starry_Melody** - Power Suit Samus graphics
-* **wittyphoenix** - Original Sand Physics and Original Underwater Walljump optional patches, as well as the initial Reduce Map detail (which got separated into two).
+* **wittyphoenix** - Original Sand Physics and Original Underwater Walljump optional patches, as well as the initial Reduce Map detail (which got separated into two by GoodLuckTrying), Red Gate and Vanilla button mapping patches.
 * **GoodLuckTrying** - No Boss Tiles on Map and No Colored Doors on Map optional patches (Originally "Reduce Map Detail" by wittyphoenix).
 * **???** - 'New Control Scheme' and 'Super Metroid Controls' optional patches. I can't remember what these two do nor who made them originally, if you know who made them, or you are the author that contacted and gave them to me, please let me know so I can add your name properly.
 * **Metroid Construction** for all the great resources, forums and help towards this hack.
