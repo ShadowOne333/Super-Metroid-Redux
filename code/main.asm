@@ -61,6 +61,7 @@ warnpc $818000
 incsrc "Animations/Animations.asm"
 incsrc "Backflip/Backflip.asm"
 incsrc "Blackout Speedups/Door Transition Speed.asm"
+incsrc "Bugfixes/Fireflea_Xray.asm"
 incsrc "Bugfixes/MissileStationEnhancer.asm"
 incsrc "Bugfixes/PBRevealTiles.asm"
 incsrc "Bugfixes/ReserveTank_Bugfixes_by_Nodever2.asm"

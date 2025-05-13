@@ -195,7 +195,7 @@ If you want to apply any of the optional patches, you can use each Optional patc
 * **DC** - Original Map Patch for Super Metroid
 * **SadiztykFish (Scyzer)** - 	Original Map Item Circles & Item Sounds codes, and Save/Load hack
 * **dex909** - Project Base's Nintedit fork
-* **PJ Boy** - Super Metroid Disassembly and Kraid's graphics corruption fix after his fight
+* **PJ Boy** - Super Metroid Disassembly, Kraid's graphics corruption fix after his fight, Fireflea X-Ray code
 * **adamf** - Screw Attack Frozen Enemies and Save Refill codes
 * **Smiley** - Help and debugging for Fixed Unlocked Tourian and New Item Circles code
 * **Nodever2** - Bugfixes, Reserve Tanks bugfix and Tourian event flag fix
