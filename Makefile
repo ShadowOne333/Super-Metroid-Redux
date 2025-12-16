@@ -72,7 +72,7 @@ compile_project:
 	@echo "Beginning main assembly code compilation with Asar..."; echo
 	@$(ASAR) $(ASM_FILE) $(PATCHED_ROM)
 
-	@echo "Main assembly code compilation succeded!"; echo
+	@echo "Main assembly code compilation succeded!"
 #-------------------------------------------------------------
 # Create both additional BPS and IPS patches files
 create_patches:
