@@ -1,210 +1,108 @@
-#! /bin/bash -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-#-------------------------------------------------------------
-# Variables used for the script
-export	time=$(date +'%T %a %d/%b/%Y')
-export	asar=bin/asar-linux/asar-standalone
-export	flips=bin/flips
-export	file_base=Super-Metroid-Redux
-export  out_folder=out
-export	patches_folder=patches
-export  clean_rom=rom/SuperMetroid.sfc
-export  patched_rom=$out_folder/$file_base.sfc
-export  asm_file=code/main.asm
-export	checksum=da957f0d63d14cb441d215462904c4fa8519c613
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+readonly TIME=$(date +'%T %a %d/%b/%Y')
+readonly FILE_BASE="Super-Metroid-Redux"
+readonly OUT_FOLDER="out"
+readonly PATCHES_FOLDER="patches"
+readonly CLEAN_ROM_SRC="rom/Super Metroid (Japan, USA) (En,Ja).sfc"
+readonly CLEAN_ROM="rom/SuperMetroid.sfc"
+readonly PATCHED_ROM="$OUT_FOLDER/$FILE_BASE.sfc"
+readonly ASM_FILE="code/main.asm"
+readonly CHECKSUM="da957f0d63d14cb441d215462904c4fa8519c613"
 
-#-------------------------------------------------------------
-# Help section
-Help()
-{
-   # Display Help
-   echo "Compile 'Super Metroid Redux' with one of the following arguments:"
-   echo
-   echo "Syntax: make.sh [option]"
-   echo "Options:"
-   echo "	-h, --help	Prints this menu."
-   #echo "	-o, --original	Original GFX menu (requires -r, -t, -g, -s or -c as additional argument)."
-   #echo "	-t, --retrans	Retranslation scrit (requires -r, -o, -g, -s or -c as additional argument)."
-   echo "	-r, --redux	Compiles default Redux (New GFX)."
-   #echo "	-g, --green	Compiles Redux with Green Agahnim GFX."
-   #echo "	-s, --subtitle	Compiles Redux with 'Triforce of the Gods' subtitle."
-   #echo "	-c, --combine	Compiles Redux with the combined Green Agahnim and Subtitle."
-   #echo
-   #echo	"* To compile normal Redux (New GFX) with one of the graphical patches, use only one of the standalone syntaxes."
-   #echo	"	Normal Redux:	Redux+Green Agahnim:	Redux+Subtitle:	Redux+Green Agahnim+Subtitle
-	#./make.sh -r	./make.sh -g		./make.sh -s		./make.sh -c"
-   #echo "* For Original GFX with one of the graphical patches, use the '-o' argument before the graphics you want"
-   #echo	"	Original GFX Redux:	OG GFX Redux+Green Agahnim:	OG GFX Redux+Subtitle:	OG GFX Redux+Green Agahnim+Subtitle:
-	#./make.sh -o -r		./make.sh -o -g			./make.sh -o -s			./make.sh -o -c"
+# ---------------------------------------------------------------------------
+# OS detection
+# ---------------------------------------------------------------------------
+case "$(uname -s)" in
+    Linux*)
+        readonly ASAR="bin/asar-linux/asar-standalone"
+        readonly FLIPS="bin/flips" ;;
+    MINGW*|MSYS*|CYGWIN*)
+        readonly ASAR="bin/asar-win/asar-standalone.exe"
+        readonly FLIPS="bin/flips.exe" ;;
+    *)  echo >&2 "Unsupported OS: $(uname -s)"; exit 1 ;;
+esac
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+die() {
+    echo >&2
+    echo >&2 "Redux compilation exited with errors!"
+    echo >&2 "ERROR: $1"
+    cleanup
+    exit 1
 }
 
-#-------------------------------------------------------------
-# Begin compilation
-Start()
-{
-# Check base ROM name
-	if [ -e "rom/Super Metroid (Japan, USA) (En,Ja).sfc" ]; then
-		echo "ROM detected. Verifying name..."
-	else
-		export error="Incorrect ROM name."
-		Error;	
-		echo "Please, rename the ROM to 'Super Metroid (Japan, USA) (En,Ja).sfc' to begin the patching process."
-		End;
-	fi
-
-#-------------------------------------------------------------
-# Copy base ROM into the /out/ folder
-	cd rom/ && cp "Super Metroid (Japan, USA) (En,Ja).sfc" SuperMetroid.sfc && cd ..
-	test ! -d "$out_folder" && mkdir "$out_folder"
-	test -f "$patched_rom" && rm "$patched_rom"
-
-#-------------------------------------------------------------
-# SHA-1 sum verification
-	if [ -f "$clean_rom" ]; then
-		echo; echo "Base ROM detected with proper name."
-		echo "Verifying SHA-1 checksum hash..."
-	else
-		export error="Base ROM not found."
-		Error;
-		echo "Place the 'Super Metroid (Japan, USA) (En,Ja).sfc' ROM inside the 'rom' folder."
-		End;
-	fi
-
-	export	sha1=$(sha1sum "$clean_rom" | awk '{ print $1 }')
-
-#-------------------------------------------------------------
-# SHA-1 sum verified, begin patching...
-	if [ "$sha1" == "$checksum" ]; then
-		echo; echo "Base ROM SHA-1 checksum verified."
-		echo "Starting patching process..."
-	else
-		export error="Base ROM checksum is incorrect."
-		Error;
-		echo "Use a Super Metroid ROM with the proper SHA-1 checksum for patching."
-		End;
-	fi
-
-#-------------------------------------------------------------
-# Copy clean ROM into a base used for patching to keep clean ROM intact
-	cp "$clean_rom" "$patched_rom"
-
-#-------------------------------------------------------------
-# Compile the main assembly code
-	echo "Beginning main assembly code compilation with Asar..."; echo
-	$asar $asm_file $patched_rom		# Main code
-	
-	echo "Main assembly code compilation succeded!"; echo
-
-	# Create IPS
-	echo "Creating $file_base.ips patch...";
-	$flips --create --ips "$clean_rom" "$patched_rom" "$patches_folder/$file_base.ips"
-
-#-------------------------------------------------------------
-# Finish script and jump to the "End" function
-	echo "Redux compilation finished at $time!"
-	End
+cleanup() {
+    [[ -f "$CLEAN_ROM" ]] && rm -f "$CLEAN_ROM"
 }
 
-#-------------------------------------------------------------
-# Error message
-Error()
-{
-	echo; echo "Redux compilation exited with errors!"
-	echo "ERROR: $error"
+reset_asm_flags() {
+    sed -i 's/!newgfx = 0/!newgfx = 1/g' "$ASM_FILE"
 }
 
-#-------------------------------------------------------------
-# Finish script
-End()
-{
-	if [ -f "$clean_rom" ]; then
-		rm $clean_rom
-	fi
+help() {
+    cat <<EOF
+Compile 'Super Metroid Redux' with one of the following arguments:
 
-	if [ "$script" == "Retranslation" ]; then
-		cp "patches/$file_base.ips" "patches/Retranslation Redux.ips"
-		rm "patches/$file_base.ips"
-	else
-		cp "patches/$file_base.ips" "patches/Super Metroid Redux.ips"
-		rm "patches/$file_base.ips"
-	fi
-
-	sleep 1
-	exit
+Syntax: make.sh [option]
+Options:
+  -h, --help      Prints this menu.
+  -r, --redux     Compiles Redux.
+EOF
 }
 
-#-------------------------------------------------------------
-# Get the options
-if [[ "$1" == "" ]];then
-    Help;
-    exit;
-else
-	#while getopts "horgsc" option; do
-	#case $option in
+# ---------------------------------------------------------------------------
+# Core build
+# ---------------------------------------------------------------------------
+start() {
+    [[ -f "$CLEAN_ROM_SRC" ]] \
+        || die "Incorrect ROM name. Rename to '$(basename "$CLEAN_ROM_SRC")' to begin."
 
-	# Force default settings at startup
-	sed -i 's/!newgfx = 0/!newgfx = 1/g' $asm_file
-	sed -i 's/!subtitle = 1/!subtitle = 0/g' $asm_file
-	sed -i 's/!retranslation = 1/!retranslation = 0/g' $asm_file
+    cp "$CLEAN_ROM_SRC" "$CLEAN_ROM"
+    mkdir -p "$OUT_FOLDER"
+    rm -f "$PATCHED_ROM"
 
-	while [ ! -z "$1" ]; do
+    echo; echo "Verifying SHA-1 checksum..."
+    local sha1
+    sha1=$(sha1sum "$CLEAN_ROM" | awk '{print $1}')
+    [[ "$sha1" == "$CHECKSUM" ]] \
+        || die "Base ROM checksum is incorrect. Use a ROM with the proper SHA-1 hash."
+    echo "SHA-1 checksum verified."
 
-		# Check if Redux is used alongside Green, Subtitle or Combined
-		if [[ ( "$@" == *[r]* ) && ( "$@" == *[g]* || "$@" == *[s]* || "$@" == *[c]* ) ]]; then
-			export error="Don't combine -r with -g/-s/-c!"
-			Error;
-			echo "Use -g, -s or -c by themselves, and/or with either -o or -t instead."; echo
-			End;
-		fi
+    cp "$CLEAN_ROM" "$PATCHED_ROM"
+    echo; echo "Compiling assembly with Asar..."
+    "$ASAR" "$ASM_FILE" "$PATCHED_ROM"
+    echo "Assembly compilation succeeded!"
 
-		# Check if Green or Subtitle is used alongside Combined
-		if [[ (( "$@" == *[g]* || "$@" == *[s]* ) && ( "$@" == *[c]* )) || ("$@" == *[g]* && "$@" == *[s]*)]]; then
-			export error="Don't combine -g/-s with themselves, nor with -c!"
-			Error;
-			echo "If you want Green Agahnim + Subtitle, use -c alone instead."; echo
-			End;
-		fi
+    echo; echo "Creating 'Super Metroid Redux.ips' patch..."
+    "$FLIPS" --create --ips "$CLEAN_ROM" "$PATCHED_ROM" "$PATCHES_FOLDER/Super Metroid Redux.ips"
 
-		# Check each argument do determine action
-		case "$1" in
-		--help|-h) # Display Help
-			Help
-			exit;;
-		--retrans|-t) # Retranslation Redux script
-			export script='Retranslation'
-			sed -i 's/!retranslation = 0/!retranslation = 1/g' $asm_file ;;
-		--original|-o) # Default Redux with Original GFX
-			export org='original/Original-'	
-			sed -i 's/!newgfx = 1/!newgfx = 0/g' $asm_file ;;
-		--redux|-r) # Default Redux with New GFX
-			shift
-			export graphics='Redux'
-			Start;;
-		--green|-g) # Redux with Green Agahnim
-			shift
-			export graphics='GreenAgahnim'
-			Start;;
-		--subtitle|-s) # Redux with Triforce of the Gods subtitle
-			shift
-			export graphics='Subtitle'
-			sed -i 's/!subtitle = 0/!subtitle = 1/g' $asm_file
-			Start;;
-		--combine|-c) # Redux with Green Agahnim and Subtitle
-			shift
-			export graphics='AgahnimSubtitle'
-			sed -i 's/!subtitle = 0/!subtitle = 1/g' $asm_file
-			Start;;
-		#\?) # Invalid option
-		*) # Invalid option
-			echo "Error: Invalid option '$1'"
-			Help
-			exit;;
-		esac
-	shift
-	done
+    echo; echo "Redux compilation finished at $TIME!"
+    cleanup
+}
 
-	#shift $(($OPTIND - 1))
-	#echo "$@"
-fi
+# ---------------------------------------------------------------------------
+# Argument parsing
+# ---------------------------------------------------------------------------
+(( $# )) || { help; exit 0; }
 
+reset_asm_flags
 
+while (( $# )); do
+    case "$1" in
+        -h|--help)
+            help; exit 0 ;;
+        -r|--redux)
+            start ;;
+        *)
+            echo "Error: Invalid option '$1'"
+            help; exit 1 ;;
+    esac
+    shift
+done
